@@ -1,0 +1,113 @@
+---
+- hosts: all
+  become: true
+  vars:
+      rhel8cis_system_is_container: "{{ is_container | default(false) }}"
+      rhel8cis_skip_for_travis: false
+      is_container: false
+      # RHEL vars
+      rhel7_activation_key: 'RHEL7'
+      rhel8_activation_key: 'RHEL8'
+      organization_id: 'Default_Organization'
+      rhel7_enabled_repos:
+      - rhel-7-server-rpms
+      - rhel-7-server-satellite-tools-6.7-rpms
+      - rhel-7-server-extras-rpms
+      rhel8_enabled_repos:
+      - rhel-8-for-x86_64-appstream-rpms
+      - rhel-8-for-x86_64-baseos-rpms
+      - satellite-tools-6.7-for-rhel-8-x86_64-rpms
+      rhel_security_updates: false
+  pre_tasks:
+  - block: 
+    - name: Fetching OS name and version details
+      shell: cat /etc/os-release
+      register: release
+    - debug:
+        msg: "{{ item }}"
+      with_items: "{{ release.stdout_lines }}"
+      when: "item.split('=')[0] == 'NAME'"
+    - name: Registering OS name
+      set_fact:
+        OS_name: "{{ item.split('=')[1] }}"
+      with_items: "{{ release.stdout_lines }}"
+      when: "item.split('=')[0] == 'NAME'"
+    - name: Resgistering OS version
+      set_fact:
+        OS_version: "{{ item.split('=')[1] }}"
+      with_items: "{{ release.stdout_lines }}"
+      when: "item.split('=')[0] == 'VERSION'"
+    - name: If RHEL 8 server
+      debug: 
+        msg: "RHEL 8 server"
+      when:
+      - "'Red Hat' in OS_name"
+      - "'8' in OS_version.split('.')[0]"
+    - name: If RHEL 7 server
+      debug:
+        msg: "RHEL 7 Server"
+      when:
+      - "'Red Hat' in OS_name"
+      - "'7' in OS_version.split('.')[0]"
+    tags: pre_task
+  - name: check subscription
+    block: 
+    - name: katello package
+      block:
+      - name: download katello package RPM
+        get_url:
+          url: 'http://satellite1.theserverindia.com/pub/katello-ca-consumer-latest.noarch.rpm'
+          dest: /tmp/katello.latest.rpm
+      - name: remove katello package
+        yum:
+          name: katello-ca-consumer-satellite1.theserverindia.com
+          state: absent
+      - name: update katello package
+        shell: "rpm -Uhv /tmp/katello.latest.rpm && rm /tmp/katello.latest.rpm"
+      when: "ansible_distribution == 'RedHat'"
+    - name: subscription
+      block:
+### SUSE subscription
+      - name: subscribe to SUSE/SLES
+        shell: "SUSEConnect -r {{ suse_activation_key }}"
+        ignore_errors: true
+        when: "('SUSE' in ansible_distribution or 'SLES' in ansible_distribution) and suse_subscription.rc!=0"
+### RHEL subscription
+      - name: subscripbe to RHEL 7
+        redhat_subscription:
+          activationkey: '{{ rhel7_activation_key }}'
+          org_id: '{{ organization_id }}'
+          state: present
+          force_register: true
+          auto_attach: true
+          #        when: 'ansible_distribution == "RedHat" and ansible_distribution_major_version is match("7") and need_rhel_subscription'
+        when: "'7' in OS_version.split('.')[0]"
+      - name: subscripbe to RHEL 8
+        redhat_subscription:
+          activationkey: '{{ rhel8_activation_key }}'
+          org_id: '{{ organization_id }}'
+          state: present
+          force_register: true
+          auto_attach: true
+          #        when: 'ansible_distribution == "RedHat" and ansible_distribution_major_version is match("8") and need_rhel_subscription'
+        when: "'8' in OS_version.split('.')[0]" 
+      tags:
+      - rhel_subscription
+  roles:
+#  - RHEL7-CIS
+  - { role: RHEL7-CIS, when: "'7' in OS_version.split('.')[0]"}
+  - { role: RHEL8-CIS, when: "'8' in OS_version.split('.')[0]"}
+  - { role: SUSE15_CIS, when: "'SUSE' in ansible_distribution or 'SLES' in ansible_distribution"}
+
+    #  - { role: RHEL7-CIS, when: '7' in OS_version.split }
+#    vars:  
+#      rhel8cis_system_is_container: "{{ is_container | default(false) }}"
+#  rhel8cis_skip_for_travis: false
+#    when:
+            #    - "'Red Hat' in OS_name"
+      #    - "'7' in OS_version.split('.')[0]"
+      #  - include_role:
+      #      name: RHEL7-CIS
+      #    when:
+      #    - "'Red Hat' in OS_name"
+      #    - "'7' in OS_version.split('.')[0]"

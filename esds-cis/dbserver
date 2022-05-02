@@ -1,0 +1,4 @@
+10.10.244.122 ansible_user=govadmin
+10.10.244.124 ansible_user=govadmin
+10.10.244.21  ansible_user=govadmin
+10.10.244.22  ansible_user=govadmin

@@ -1,0 +1,48 @@
+---
+- hosts: all
+  become: true
+
+
+- name: "MANUAL| 2.2.1.1 | PATCH | Ensure time synchronization is in use - service install"
+  package:
+    name: chrony
+    state: present
+
+- name: "MANUAL | 2.2.1.1 | PATCH | Ensure time synchronization is in use - service start"
+  service:
+    name: chrony
+    state: started
+    enabled: yes
+
+- name: "MANUAL| 2.2.1.1 | PATCH | Ensure time synchronization is in use - service stop ntp"
+  service:
+    name: ntpd
+    state: stopped
+    enabled: no
+
+- name: "MANUAL | 2.2.1.1 | PATCH | Ensure time synchronization is in use - service stop chrony"
+  service:
+    name: chronyd
+    state: stopped
+    enabled: no
+
+- name: "AUTOMATED | 2.2.1.2 | PATCH | Ensure chrony is configured"
+  block:
+  - name: "AUTOMATED | 2.2.1.2 | PATCH | Ensure chrony is configured | modify /etc/chrony.conf"
+    template:
+      src: chrony.conf.j2
+      dest: /etc/chrony.conf
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: "AUTOMATED | 2.2.1.2 | PATCH | Ensure chrony is configured | modify /etc/sysconfig/chronyd"
+    lineinfile:
+      dest: /etc/sysconfig/chronyd
+      regexp: "^(#)?OPTIONS"
+      line: "OPTIONS=\"-u chrony\""
+      state: present
+      create: yes
+      owner: root
+      group: root
+      mode: 0640
