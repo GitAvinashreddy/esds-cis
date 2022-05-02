@@ -37,19 +37,19 @@
 
 - name: copying goss
   copy:
-    src: "/home/govadmin/patch-automation/esds-cis/goss"
+    src: "/home/govadmin/patch-automation/gitcisnew/esds-cis/esds-cis/goss"
     dest: "/usr/local/bin/"  
-    owner: root
-    group: root
+    owner: govadmin
+    group: govadmin
     mode: 744
 
 - name: copy to audit content files to server
   copy:
     src: "{{ rhel7cis_audit_local_copy }}"
     dest: "{{ goss_audit_dir  }}"
-    owner: root
-    group: root
-    mode: 0640
+    owner: govadmin
+    group: govadmin
+    mode: 0744
   when:
   - rhel7cis_audit_content == 'copy'
   - "goss_audit_confirm_path.stdout == ''"

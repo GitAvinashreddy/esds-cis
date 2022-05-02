@@ -568,7 +568,7 @@ rhel7cis_audit_file_git: "https://github.com/ansible-lockdown/{{ benchmark }}-Au
 rhel7cis_audit_git_version: main
 
 # copy:
-rhel7cis_audit_local_copy: "/home/govadmin/patch-automation/esds-cis/RHEL7-CIS-Audit/"
+rhel7cis_audit_local_copy: "/home/govadmin/patch-automation/gitcisnew/esds-cis/esds-cis/RHEL7-CIS-Audit/"
 
 # get_url:
 rhel7cis_audit_files_url: "some url maybe s3?"
