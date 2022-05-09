@@ -176,10 +176,10 @@ ubtu20cis_rule_3_5_2_10: true
 ubtu20cis_rule_3_5_3_1_1: true
 ubtu20cis_rule_3_5_3_1_2: true
 ubtu20cis_rule_3_5_3_1_3: true
-ubtu20cis_rule_3_5_3_2_1: true
-ubtu20cis_rule_3_5_3_2_2: true
-ubtu20cis_rule_3_5_3_2_3: true
-ubtu20cis_rule_3_5_3_2_4: true
+ubtu20cis_rule_3_5_3_2_1: false
+ubtu20cis_rule_3_5_3_2_2: false
+ubtu20cis_rule_3_5_3_2_3: false
+ubtu20cis_rule_3_5_3_2_4: false
 ubtu20cis_rule_3_5_3_3_1: true
 ubtu20cis_rule_3_5_3_3_2: true
 ubtu20cis_rule_3_5_3_3_3: true
@@ -233,7 +233,7 @@ ubtu20cis_rule_5_1_5: true
 ubtu20cis_rule_5_1_6: true
 ubtu20cis_rule_5_1_7: true
 ubtu20cis_rule_5_1_8: true
-ubtu20cis_rule_5_1_9: true
+ubtu20cis_rule_5_1_9: false
 ubtu20cis_rule_5_2_1: true
 ubtu20cis_rule_5_2_2: true
 ubtu20cis_rule_5_2_3: true
@@ -322,7 +322,7 @@ ubtu20cis_vsftpd_server: false
 ubtu20cis_httpd_server: false
 ubtu20cis_dovecot_server: false
 ubtu20cis_smb_server: false
-ubtu20cis_squid_server: fase
+ubtu20cis_squid_server: false
 ubtu20cis_snmp_server: false
 ubtu20cis_rsync_server: false
 ubtu20cis_nis_server: false
@@ -396,8 +396,8 @@ ubtu20cis_root_pw: "Password1"
 # Control 1.8.2
 # This will be the motd banner must not contain the below items in order to be compliant with Ubuntu 20 CIS
 # \m, \r, \s, \v or references to the OS platform
-ubtu20cis_warning_banner: |
-        Authorized uses only. All activity may be monitored and reported.
+ubtu20cis_warning_banner: ""
+#        Authorized uses only. All activity may be monitored and reported.
 
 # Section 2 Control Variables
 # Control 2.1.1.1
@@ -552,8 +552,8 @@ ubtu20cis_sshd:
     login_grace_time: 60
     max_sessions: 4
     # WARNING: make sure you understand the precedence when working with these values!!
-    allow_users: "vagrant ubuntu"
-    allow_groups: "vagrant ubuntu"
+    allow_users: "govadmin "
+    allow_groups: "govadmin "
     # deny_users:
     # deny_groups:
 

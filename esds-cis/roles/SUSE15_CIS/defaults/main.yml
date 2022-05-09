@@ -334,8 +334,8 @@ suse15cis_firewall_services:
 - dhcpv6-client
 
 # Warning Banner Content (issue, issue.net, motd)
-suse15cis_warning_banner: |
-  Authorized uses only. All activity may be monitored and reported.
+suse15cis_warning_banner: ""
+#  Authorized uses only. All activity may be monitored and reported.
 # End Banner
 
 ## Section4 vars

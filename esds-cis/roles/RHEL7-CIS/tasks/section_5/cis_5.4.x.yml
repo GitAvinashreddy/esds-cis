@@ -59,7 +59,7 @@
     block: |
       # Set session timeout - CIS ID RHEL-07-5.4.4
       TMOUT={{ rhel7cis_shell_session_timeout.timeout }}
-      readonly TMOUT
+      #      readonly TMOUT
       export TMOUT
   loop:
   - dest: "{{ rhel7cis_shell_session_timeout.file }}"

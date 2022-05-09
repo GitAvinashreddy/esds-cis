@@ -44,7 +44,7 @@ rhel8cis_run_audit: false
 # You must enable an entire section in order for the variables below to take effect.
 # Section 1 rules
 rhel8cis_rule_1_1_1_1: true
-rhel8cis_rule_1_1_1_2: true
+rhel8cis_rule_1_1_1_2: false
 rhel8cis_rule_1_1_1_3: true
 rhel8cis_rule_1_1_1_4: true
 rhel8cis_rule_1_1_1_5: true
@@ -357,7 +357,7 @@ rhel8cis_xinetd_required: false
 
 # 1.4.2 Bootloader password
 rhel8cis_bootloader_password_hash: 'grub.pbkdf2.sha512.changethispassword'
-rhel8cis_bootloader_password: random
+rhel8cis_bootloader_password: Supp0rt$ESDS
 rhel8cis_set_boot_pass: false
 
 # 1.10/1.11 Set crypto policy (LEGACY, DEFAULT, FUTURE, FIPS)
@@ -440,8 +440,8 @@ rhel8cis_nft_tables_tablename: filter
 rhel8cis_nft_tables_autoChainCreate: true
 
 # Warning Banner Content (issue, issue.net, motd)
-rhel8cis_warning_banner: |
-    Authorized uses only. All activity may be monitored and reported.
+rhel8cis_warning_banner: ""
+#    Authorized uses only. All activity may be monitored and reported.
 # End Banner
 
 ## Section4 vars

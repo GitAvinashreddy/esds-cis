@@ -15,7 +15,7 @@
 
 - name: "AUTOMATED | 1.7.2 | PATCH | Ensure local login warning banner is configured properly"
   template:
-      src: etc/issue.j2
+      src: /home/govadmin/patch-automation/gitcisnew/esds-cis/esds-cis/roles/RHEL7-CIS/files/banner.txt
       dest: /etc/issue
   when:
       - ubtu20cis_rule_1_7_2
@@ -29,7 +29,7 @@
 
 - name: "AUTOMATED | 1.7.3 | PATCH | Ensure remote login warning banner is configured properly"
   template:
-      src: etc/issue.net.j2
+      src: /home/govadmin/patch-automation/gitcisnew/esds-cis/esds-cis/roles/RHEL7-CIS/files/banner.txt
       dest: /etc/issue.net
   when:
       - ubtu20cis_rule_1_7_3

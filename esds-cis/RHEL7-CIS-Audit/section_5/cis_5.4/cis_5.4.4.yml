@@ -6,6 +6,6 @@ file:
     exists: true
     contains:
     - '/^TMOUT=([1-8][0-9]{0,2}|900)/'
-    - '/^readonly TMOUT/'
+      #    - '/^readonly TMOUT/'
   {{ end }}
 {{ end }}

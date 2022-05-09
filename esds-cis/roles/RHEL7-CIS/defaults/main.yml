@@ -182,8 +182,8 @@ rhel7cis_rule_3_4_2: true
 rhel7cis_rule_3_5_1_1: true
 rhel7cis_rule_3_5_1_2: true
 rhel7cis_rule_3_5_1_3: true
-rhel7cis_rule_3_5_1_4: true
-rhel7cis_rule_3_5_1_5: true
+rhel7cis_rule_3_5_1_4: false
+rhel7cis_rule_3_5_1_5: false
 rhel7cis_rule_3_5_1_6: true
 rhel7cis_rule_3_5_1_7: true
 rhel7cis_rule_3_5_2_1: true
@@ -380,7 +380,7 @@ rhel7cis_rhnsd_required: false
 rhel7cis_set_boot_pass: false
 #rhel7cis_bootloader_password_hash: "grub.pbkdf2.sha512.10000.E28E8C70D5BAEB6C2340CF4906B77BEB3B764A256D72ABBFDB03D89848D8FEBE49DBE9BF705EF77103D72F67C21257BAE74B423055827DC828505FF7FB8F56FA.C3AA7C6F7E1CE3E8E4E533D0BA3F0B8EF2AEE2BC8C229CEF563A4C702D6EB5930E4B55A3D9F3C07DC836349ED2F6A28A105391D4D701493ED7903C2BE50DE808"
 rhel7cis_bootloader_password_hash:
-- "changethispassworsdfgavgbwd"
+- "Supp0rt$ESDS"
 
 # System network parameters (host only OR host and router)
 rhel7cis_is_router: false

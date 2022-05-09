@@ -18,6 +18,7 @@
       - rhel-8-for-x86_64-baseos-rpms
       - satellite-tools-6.7-for-rhel-8-x86_64-rpms
       rhel_security_updates: false
+      suse_activation_key: '114AF6A8C7824F84' 
   pre_tasks:
   - block: 
     - name: Fetching OS name and version details
@@ -65,13 +66,17 @@
       - name: update katello package
         shell: "rpm -Uhv /tmp/katello.latest.rpm && rm /tmp/katello.latest.rpm"
       when: "ansible_distribution == 'RedHat'"
+      tags:
+      - pathing
+
     - name: subscription
       block:
 ### SUSE subscription
       - name: subscribe to SUSE/SLES
         shell: "SUSEConnect -r {{ suse_activation_key }}"
         ignore_errors: true
-        when: "('SUSE' in ansible_distribution or 'SLES' in ansible_distribution) and suse_subscription.rc!=0"
+        #when: "('SUSE' in ansible_distribution or 'SLES' in ansible_distribution) and suse_subscription.rc!=0"
+        when: "'SLES' in OS_name"
 ### RHEL subscription
       - name: subscripbe to RHEL 7
         redhat_subscription:
@@ -81,7 +86,9 @@
           force_register: true
           auto_attach: true
           #        when: 'ansible_distribution == "RedHat" and ansible_distribution_major_version is match("7") and need_rhel_subscription'
-        when: "'7' in OS_version.split('.')[0]"
+        when: 
+        - "'7' in OS_version.split('.')[0]"
+        - "'Red Hat' in OS_name"
       - name: subscripbe to RHEL 8
         redhat_subscription:
           activationkey: '{{ rhel8_activation_key }}'
@@ -98,6 +105,7 @@
   - { role: RHEL7-CIS, when: "'7' in OS_version.split('.')[0]"}
   - { role: RHEL8-CIS, when: "'8' in OS_version.split('.')[0]"}
   - { role: SUSE15_CIS, when: "'SUSE' in ansible_distribution or 'SLES' in ansible_distribution"}
+  - { role: UBUNTU20-CIS, when: "'Ubuntu' in ansible_distribution or 'Ubuntu' in ansible_distribution"}
 
     #  - { role: RHEL7-CIS, when: '7' in OS_version.split }
 #    vars:  
